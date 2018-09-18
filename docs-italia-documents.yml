@@ -1,0 +1,7 @@
+- url: https://design-italia.readthedocs.io/it/
+  redirect_url: https://design-italia-redirect.readthedocs.io/it/
+  versions:
+    - latest
+    - stable
+    - "2017.1"
+    - "2018.1"
