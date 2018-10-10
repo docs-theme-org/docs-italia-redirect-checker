@@ -52,7 +52,7 @@ for document in documents:
             except:
                 print('[ ' + u'\u2718' + ' ]\t\t' + link)
                 broken_redirects.append({
-                    'original_url': document['url'] + str(version) + '/' + link,
+                    'original_url': document['original_url'] + str(version) + '/' + link,
                     'redirect_url': document['redirect_url'] + str(version) + '/' + link,
                     'target_url': document['target_url'] + document['versions'][version] + '/' + link,
                     'reason': 'Redirect URL not reachable'
@@ -64,7 +64,7 @@ for document in documents:
             if len(soup.findAll(id='redirect')) == 0:
                 print('[ ' + u'\u2718' + ' ]\t\t', end='')
                 broken_redirects.append({
-                    'original_url': document['url'] + str(version) + '/' + link,
+                    'original_url': document['original_url'] + str(version) + '/' + link,
                     'redirect_url': document['redirect_url'] + str(version) + '/' + link,
                     'target_url': document['target_url'] + document['versions'][version] + '/' + link,
                     'reason': 'Redirect not correctly set'
@@ -77,7 +77,7 @@ for document in documents:
                 except:
                     print('[ ' + u'\u2718' + ' ]\t\t' + link)
                     broken_redirects.append({
-                        'original_url': document['url'] + str(version) + '/' + link,
+                        'original_url': document['original_url'] + str(version) + '/' + link,
                         'redirect_url': document['redirect_url'] + str(version) + '/' + link,
                         'target_url': document['target_url'] + document['versions'][version] + '/' + link,
                         'reason': 'Target URL not reachable'
