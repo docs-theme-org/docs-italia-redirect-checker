@@ -43,7 +43,7 @@ for document in documents:
         print('Checking redirect links from document: ' + document['original_url'])
         print('Redirect document is: ' + document['redirect_url'])
         print('Target document is: ' + document['target_url'])
-        print('Vesion: ' + str(version))
+        print('Version: ' + str(version))
         for link in links:            
             req = Request(document['redirect_url'] + str(version) + '/' + link)
         
