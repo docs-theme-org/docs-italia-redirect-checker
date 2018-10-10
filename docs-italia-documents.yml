@@ -11,3 +11,8 @@
   target_url: https://docs.italia.it/italia/piano-triennale-ict/pianotriennale-ict-doc/it/
   versions:
     latest: bozza
+- original_url: https://guida-docs-italia.readthedocs.io/it/
+  redirect_url: https://guida-docs-italia-redirect.readthedocs.io/it/
+  target_url: https://docs.italia.it/italia/docs-italia/docs-italia-guide/it/
+  versions:
+    latest: bozza
