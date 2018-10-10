@@ -18,12 +18,12 @@ for document in documents:
     broken_redirects = []
     
     for version in document['versions']:
-        req = Request(document['url'] + version)
+        req = Request(document['original_url'] + str(version))
         
         try:
             html_page = urlopen(req)
         except:
-            print('Unable to open url: ' + document['url'] + version)
+            print('Unable to open url: ' + document['original_url'] + str(version))
             sys.exit('Check your docs-italia-documents.yml file for errors')
         
         soup = BeautifulSoup(html_page, "lxml")
@@ -40,20 +40,22 @@ for document in documents:
             if doc_url and doc_url not in links:
                 links.append(link_url)
         
-        print('Checking redirect links from document: ' + document['url'])
+        print('Checking redirect links from document: ' + document['original_url'])
         print('Redirect document is: ' + document['redirect_url'])
-        print('Vesion: ' + version)
+        print('Target document is: ' + document['target_url'])
+        print('Vesion: ' + str(version))
         for link in links:            
-            req = Request(document['redirect_url'] + version + '/' + link)
+            req = Request(document['redirect_url'] + str(version) + '/' + link)
         
             try:
                 html_page = urlopen(req)
             except:
                 print('[ ' + u'\u2718' + ' ]\t\t' + link)
                 broken_redirects.append({
-                    'original_url': document['url'] + version + '/' + link,
-                    'redirect_url': document['redirect_url'] + version + '/' + link,
-                    'reason': '404'
+                    'original_url': document['url'] + str(version) + '/' + link,
+                    'redirect_url': document['redirect_url'] + str(version) + '/' + link,
+                    'target_url': document['target_url'] + document['versions'][version] + '/' + link,
+                    'reason': 'Redirect URL not reachable'
                 })
                 continue
         
@@ -62,13 +64,26 @@ for document in documents:
             if len(soup.findAll(id='redirect')) == 0:
                 print('[ ' + u'\u2718' + ' ]\t\t', end='')
                 broken_redirects.append({
-                    'original_url': document['url'] + version + '/' + link,
-                    'redirect_url': document['redirect_url'] + version + '/' + link,
-                    'reason': 'redirect not in page'
+                    'original_url': document['url'] + str(version) + '/' + link,
+                    'redirect_url': document['redirect_url'] + str(version) + '/' + link,
+                    'target_url': document['target_url'] + document['versions'][version] + '/' + link,
+                    'reason': 'Redirect not correctly set'
                 })
             else:
-                print('[ ' + u'\u2714' + ' ]\t\t', end='')
-        
+                target_req = Request(document['target_url'] + document['versions'][version] + '/' + link)
+                try:
+                    target_page = urlopen(target_req)
+                    print('[ ' + u'\u2714' + ' ]\t\t', end='')
+                except:
+                    print('[ ' + u'\u2718' + ' ]\t\t' + link)
+                    broken_redirects.append({
+                        'original_url': document['url'] + str(version) + '/' + link,
+                        'redirect_url': document['redirect_url'] + str(version) + '/' + link,
+                        'target_url': document['target_url'] + document['versions'][version] + '/' + link,
+                        'reason': 'Target URL not reachable'
+                    })
+                    continue    
+
             print(link)
         
         print('\n')
@@ -79,6 +94,7 @@ for document in documents:
         print ('The following redirects are broken:\n')
         for broken_redirect in broken_redirects:
             print('Original url: ' + broken_redirect['original_url'])
-            print('Test url: ' + broken_redirect['redirect_url'])
+            print('Redirect url: ' + broken_redirect['redirect_url'])
+            print('Target url: ' + broken_redirect['target_url'])
             print('Reason: ' + broken_redirect['reason'])
             print('\n-----------------------\n')
