@@ -1,7 +1,13 @@
-- url: https://design-italia.readthedocs.io/it/
-  redirect_url: https://design-italia-redirect.readthedocs.io/it/
+- original_url: https://design-italia.readthedocs.io/it/
+  redirect_url: https://design-linee-guida-docs.readthedocs.io/it/
+  target_url: https://docs.italia.it/italia/designers-italia/design-linee-guida-docs/it/
   versions:
-    - latest
-    - stable
-    - "2017.1"
-    - "2018.1"
+    latest: bozza
+    stable: stabile
+    2017.1: "2017.1"
+    2018.1: "2018.1"
+- original_url: https://pianotriennale-ict.readthedocs.io/it/
+  redirect_url: https://pianotriennale-ict-redirect.readthedocs.io/it/
+  target_url: https://docs.italia.it/italia/piano-triennale-ict/pianotriennale-ict-doc/it/
+  versions:
+    latest: bozza
